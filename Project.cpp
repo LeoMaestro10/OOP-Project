@@ -200,9 +200,166 @@ public:
 			fin.file_Closer();
 		}
 	}
-	
-
+	Student(const Student& object)
+	{
+		Name = object.Name;
+		roll_No = object.roll_No;
+		Age = object.Age;
+		contact = object.contact;
+		attendance = object.attendance;
+		marks = object.marks;
+	}
+	void operator=(const Student& object)
+	{
+		Name = object.Name;
+		roll_No = object.roll_No;
+		Age = object.Age;
+		contact = object.contact;
+		attendance = object.attendance;
+		marks = object.marks;
+		total_Attendance = object.total_Attendance;
+		if (total_Attendance>0)
+		{
+			attendance = new char[total_Attendance];
+			for (int i = 0; i < total_Attendance; i++)
+			{
+				attendance[i] = object.attendance[i];
+			}
+		}
+		total_Marks = object.total_Marks;
+		if (total_Marks > 0)
+		{
+			marks = new int[total_Marks];
+			for (int i = 0; i < total_Marks; i++)
+			{
+				marks[i] = object.marks[i];
+			}
+		}
+	}
+	friend void operator<<(ostream& out, Student& object)
+	{
+		out << object.Name << "\t";
+		out << object.Age << "\t";
+		out << object.roll_No << "\t";
+		out << object.contact << "\t";
+	}
+	void file_reader(string naam = " ", string roll = " ", int umar = 0, long double rabta = 0)
+	{
+		Name = naam;
+		roll_No = roll;
+		Age = umar;
+		contact = rabta;
+	}
+	string name_Getter()
+	{
+		return Name;
+	}
+	string roll_Getter()
+	{
+		return roll_No;
+	}
+	int umar_Getter()
+	{
+		return Age;
+	}
+	long double rabta_Getter()
+	{
+		return contact;
+	}
+	int total_Att_Getter()
+	{
+		return total_Attendance;
+	}
+	void attendance_Setter(int at)
+	{
+		total_Attendance = at;
+		attendance = new char[total_Attendance];
+		for (int i = 0; i < total_Attendance; i++)
+		{
+			attendance[i] = '-';
+		}
+	}
+	void student_Info_Updater()
+	{
+		string first_Name,last_Name;
+		cout << endl;
+		cout << "Enter Updated Details Of Student" << endl << endl;
+		cout << "Enter First Name : ";
+		cin >> first_Name;
+		cout << "Enter Last Name : ";
+		cin >> last_Name;
+		Name = first_Name + " " + last_Name;
+		cout << "Enter Age : ";
+		cin >> Age;
+		cout << "Enter Contact No : ";
+		cin >> contact;
+		cout << "Enter Roll No : ";
+		cin >> roll_No;
+		
+	}
+	void attendance_Displayer()
+	{
+		if (total_Attendance==0)
+		{
+			cout << "Sorry ! There hasn't Been Any Class Held ." << endl;
+		}
+		else
+		{
+			for (int i = 0; i < total_Attendance; i++)
+			{
+				cout << attendance[i];
+				if (i!=total_Attendance-1)
+				{
+					cout << "  ";
+				}
+			}
+			cout << endl;
+		}
+	}
+	void Marks_Displayer()
+	{
+		if (total_Marks == 0)
+		{
+			cout << "Sorry ! There hasn't Been Any Exam Held ." << endl;
+		}
+		else
+		{
+			for (int i = 0; i < total_Marks; i++)
+			{
+				cout << marks[i];
+				if (i != total_Marks - 1)
+				{
+					cout << "  ";
+				}
+			}
+			cout << endl;
+		}
+	}
+	~Student()
+	{
+		Name = "";
+		roll_No = "";
+		Age = 0;
+		contact = 0;
+		if (attendance)
+		{
+			delete[] attendance;
+		}
+		else
+		{
+			attendance = 0;
+		}
+		if (marks)
+		{
+			delete[] marks;
+		}
+		else
+		{
+			marks = 0;
+		}
+	}
 };
+
 class Course
 {
 private:
