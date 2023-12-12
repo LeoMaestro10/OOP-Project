@@ -7,11 +7,41 @@ class Student
 	string roll_No;
 	int Age;
 	long double contact;
-	string Courses;
-	//char Attendance[];
-	int marks;
+	int total_Attendance;
+	char* attendance;
+	int* marks;
+	int total_Marks;
 
-private:
+public:
+	friend class FileHandler;
+	Student()// Default Constructor
+	{
+		Name = "";
+		roll_No = "";
+		Age = 0;
+		contact = 0;
+		total_Attendance = 0;
+		attendance = 0;
+		marks = 0;
+		total_Marks = 0;
+	}
+	Student(string st_Name, string st_Roll, int Umer, long double Raabta, char* day_Att, int* each_marks, int to_Att, string c_Code) // parameterized Constructor
+	{
+		Name = st_Name;
+		roll_No = st_Roll;
+		Age = Umer;
+		contact = Raabta;
+		attendance = day_Att;
+		total_Attendance = to_Att;
+		marks = each_marks;
+		string stu_File = c_Code + roll_No + ".txt";
+		FileHandler fin;
+		fin.file_Opener(stu_File, ios::out);
+		fin.file_Closer();
+	}
+	void attendance_Marker(string )
+	
+	
 
 };
 class Course
@@ -24,6 +54,11 @@ private:
 	double course_Capacity;
 	Student* course_Students;
 	int students_Enrolled;
+
+public:
+	friend class FileHandler;
+	
+	
 
 
 };
@@ -284,8 +319,6 @@ public:
 		string co_Instructor;
 		float co_Credits;
 		double co_Capacity;
-		//Student* course_Students;
-		//int students_Enrolled;
 		for (int i = 0; i < course_En; i++)
 		{
 			Filer >> co_Code;
@@ -293,8 +326,69 @@ public:
 			Filer >> co_Instructor;
 			Filer >> co_Credits;
 			Filer >> co_Capacity;
+			fstream student_Reader;
+			
+			Student* cour_Students=nullptr;
+			int stu_Enrolled;
+			string name_Of_File = co_Code + ".txt";
+			student_Reader.open(name_Of_File, ios::in);
+			if (student_Reader)
+			{
+				Filer >> stu_Enrolled;
+				cour_Students = new Student[stu_Enrolled];
+				string first_Name, last_Name;
+				for (int j = 0; j < stu_Enrolled; j++)
+				{
+					student_Reader >> first_Name;
+					student_Reader >> last_Name;
+					cour_Students[j].Name = first_Name + " " + last_Name;
+					student_Reader >> cour_Students[j].roll_No;
+					student_Reader >> cour_Students[j].Age;
+					student_Reader >> cour_Students[j].contact;
+					string name_Of_File2 = co_Code + cour_Students[j].roll_No + ".txt";
+					fstream attendance_Reader;
+					attendance_Reader.open(name_Of_File2, ios::in);
+					attendance_Reader >> cour_Students[j].total_Attendance;
+					cour_Students[j].attendance = new char[cour_Students[j].total_Attendance];
+					for (int k = 0; k < cour_Students[j].total_Attendance; k++)
+					{
+						attendance_Reader >> cour_Students[j].attendance[k];
+					}
+					attendance_Reader.close();
+					string name_Of_File3 = co_Code + cour_Students[j].roll_No + "marks.txt";
+					fstream marks_Reader;
+					marks_Reader.open(name_Of_File3, ios::in);
+					marks_Reader >> cour_Students[j].total_Marks;
+					cour_Students[j].marks = new int[cour_Students[j].total_Marks];
+					for (int l = 0; l < cour_Students[j].total_Marks; l++)
+					{
+						marks_Reader >> cour_Students[j].marks[l];
+					}
+					marks_Reader.close();
+				}
+			}
+			else
+			{
+				stu_Enrolled = 0;
+				cour_Students = 0;
+			}
+			student_Reader.close();
 			co_pointer[i].file_reader(co_Code, co_Name, co_Instructor, co_Credits,co_Capacity);
 		}
+	}
+	template <typename decider>
+	void operator>>(decider &reader)
+	{
+		Filer >> reader;
+	}
+	template <typename decider>
+	void operator<<(decider& writer)
+	{
+		Filer << writer;
+	}
+	bool operator!()
+	{
+		return (Filer.eof() == 0);
 	}
 
 };
