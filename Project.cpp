@@ -1,6 +1,63 @@
 #include<iostream>
 #include<fstream>
 using namespace std;
+
+class string_Helper
+{
+public:
+
+	static int str_Len(string str)
+	{
+		int count = 0;
+		for (; str[count] != '\0'; count++)
+			return count;	
+	}
+
+	static void str_Cpy(char* destination, string source)
+	{
+		int i;
+		for ( i = 0; source[i]!='\0'; i++)
+		{
+			destination[i] = source[i];
+		}
+		destination[i] = '\0';
+	}
+	static char* str_From_Memory(string array)
+	{
+		int length = str_Len(array);
+		char* temp = new char[length];
+		str_Cpy(temp, array);
+		return temp;
+	}
+	static bool str_Finder(char* str, const char*& substring)
+	{
+		for (int i = 0; str[i]!= '\0'; i++)
+		{
+			if (substring[0]==str[i])
+			{
+
+				bool flag = 1;
+				int k = i;
+				for (int j = 0; substring[j]!='\0'; j++:k++)
+				{
+					if (str[k]!=substring[j])
+					{
+						flag = 0;
+					}
+				}
+				if (flag==1)
+				{
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+
+
+};
+
 class Student
 {
 	string Name;
@@ -39,7 +96,32 @@ public:
 		fin.file_Opener(stu_File, ios::out);
 		fin.file_Closer();
 	}
-	void attendance_Marker(string )
+	void attendance_Marker(string course_Code)
+	{
+		if (total_Attendance>0)
+		{
+			for (int i = 0; i < total_Attendance; i++)
+			{
+				cout << attendance[i] << " ";
+			}
+			char today_Attendance;
+			cout << "Enter Today's Attendance : ";
+			cin >> today_Attendance;
+			char* att;
+			int length_Att = total_Attendance + 1;
+			att = new char[length_Att];
+			int m = 0;
+			for ( m; m < total_Attendance; m++)
+			{
+				att[m] = attendance[m];
+			}
+			att[m] = today_Attendance;
+			delete[] attendance;
+			attendance = att;
+			total_Attendance = length_Att;
+
+		}
+	}
 	
 	
 
