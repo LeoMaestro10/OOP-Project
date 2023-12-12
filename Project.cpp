@@ -745,6 +745,7 @@ class System
 	double Students;
 	int Courses;
 	int Menus;
+	Course* t_Course;
 
 public:
 	void main_Menu()
@@ -800,21 +801,64 @@ public:
 			{
 				for (int i = 0; i < Courses; i++)
 				{
-
+					t_Course[i].students_Displayer();
 				}
-
+				goto start1;
 			}
 			else if (sub_Choice==2)
 			{
-
+				int M = 0;
+			initiator:
+				system("cls");
+				cout << "\t\t Available Courses" << endl << endl;
+				for (int j = 0; j < Courses; j++)
+				{
+					cout << "\t" << j << "  ";
+					t_Course[j].available_Course();
+				}
+				do
+				{
+					if (M<0 || M>Courses)
+					{
+						system("cls");
+						cout << "Invalid Input Entered . " << endl;
+						goto initiator;
+					}
+					cout << "Select Course In Which You Want To Enroll Student : ";
+					cin >> M;
+				} while (M<0 || M>Courses);
+				t_Course[M].student_Enroller();
+				goto start1;
 			}
 			else if (sub_Choice == 3)
 			{
-
+				int M = 0;
+			initiator1:
+				system("cls");
+				cout << "\t\t Available Courses" << endl << endl;
+				for (int j = 0; j < Courses; j++)
+				{
+					cout << "\t" << j << "  ";
+					t_Course[j].available_Course();
+				}
+				do
+				{
+					if (M<0 || M>Courses)
+					{
+						system("cls");
+						cout << "Invalid Input Entered . " << endl;
+						goto initiator1;
+					}
+					cout << "Select Course In Which You Want To Remove Student : ";
+					cin >> M;
+				} while (M<0 || M>Courses);
+				t_Course[M].student_Remover();
+				goto start1;
 			}
 			else if (sub_Choice == 4)
 			{
-
+				t_Course = t_Course->student_Details_Editor(Courses);
+				goto start1;
 			}
 			else if (sub_Choice == 5)
 			{
@@ -837,21 +881,50 @@ public:
 			}
 			else if (sub_Choice==1)
 			{
-
+				cout << "\t\tAvailable Courses"<<endl<<endl;
+				for (int j = 0; j < Courses; j++)
+				{
+					t_Course[j].available_Course();
+				}
+				goto start1;
 			}
 			else if (sub_Choice==2)
 			{
-
+				int i = 0, length = Courses + 1;
+				Course* temp = new Course[length];
+				for ( i ; i < Courses; i++)
+				{
+					temp[i] = t_Course[i];
+				}
+				temp[i].input_Getter();
+				delete t_Course;
+				t_Course = temp;
+				Courses = length;
+				FileHandler fin;
+				remove("courses.txt");
+				fin.file_Opener("courses.txt", ios::app);
+				fin << Courses;
+				fin << '\n';
+				for (int j = 0; j < Courses; j++)
+				{
+					fin << t_Course[j].code_Getter();
+					fin << "\t\t";
+					fin << t_Course[j].name_Getter();
+					fin << "\t\t";
+					fin << t_Course[j].inst_Getter();
+					fin << "\t\t";
+					fin << t_Course[j].credit_Getter();
+					fin << "\t\t";
+					fin << t_Course[j].space_Getter();
+					fin << '\n';
+				}
+				fin.file_Closer();
+				goto start1;
 			}
 			else if (sub_Choice==3)
 			{
 				this->main_Menu();
 			}
-			else
-			{
-
-			}
-			
 		}
 		else if (choice==3)
 		{
@@ -869,19 +942,60 @@ public:
 			}
 			else if (sub_Choice == 1)
 			{
+				int Siu = 0;
+			point:
+				system("cls");
+				cout << "\t\tAvailable Courses" << endl << endl;
+				for (int j = 0; j < Courses; j++)
+				{
+					cout << "\t" << j << "  ";
+					t_Course[j].available_Course();
+				}
+				do
+				{
+					if (Siu<0 || Siu>Courses)
+					{
+						system("cls");
+						cout << "Invalid Input Entered ." << endl;
+						goto point;
+					}
+					cout << endl << "Which Course's Attendance You Want to Display :  ";
+					cin >> Siu;
+
+				} while (Siu<0||Siu>Courses);
+				t_Course[Siu].Attendance_Shower();
+				goto start1;
 
 			}
 			else if (sub_Choice == 2)
 			{
+				int Siu = 0;
+			pointer:
+				system("cls");
+				cout << "\t\tAvailable Courses" << endl << endl;
+				for (int j = 0; j < Courses; j++)
+				{
+					cout << "\t" << j << "  ";
+					t_Course[j].available_Course();
+				}
+				do
+				{
+					if (Siu<0 || Siu>Courses)
+					{
+						system("cls");
+						cout << "Invalid Input Entered ." << endl;
+						goto pointer;
+					}
+					cout << endl << "Which Course's Attendance You Want to Mark :  ";
+					cin >> Siu;
 
+				} while (Siu<0 || Siu>Courses);
+				t_Course[Siu].Attendance_Marker();
+				goto start1;
 			}
 			else if (sub_Choice == 3)
 			{
 				this->main_Menu();
-			}
-			else
-			{
-
 			}
 		}
 		else if (choice == 4)
@@ -900,22 +1014,63 @@ public:
 			}
 			else if (sub_Choice == 1)
 			{
+				int Siu = 0;
+			pointer1:
+				system("cls");
+				cout << "\t\tAvailable Courses" << endl << endl;
+				for (int j = 0; j < Courses; j++)
+				{
+					cout << "\t" << j << "  ";
+					t_Course[j].available_Course();
+				}
+				do
+				{
+					if (Siu<0 || Siu>Courses)
+					{
+						system("cls");
+						cout << "Invalid Input Entered ." << endl;
+						goto pointer1;
+					}
+					cout << endl << "Which Course's Marks You Want to Display :  ";
+					cin >> Siu;
 
+				} while (Siu<0 || Siu>Courses);
+				t_Course[Siu].marks_Displayer();
+				goto start1;
 			}
 			else if (sub_Choice == 2)
 			{
+				int Siu = 0;
+			pointer2:
+				system("cls");
+				cout << "\t\tAvailable Courses" << endl << endl;
+				for (int j = 0; j < Courses; j++)
+				{
+					cout << "\t" << j << "  ";
+					t_Course[j].available_Course();
+				}
+				do
+				{
+					if (Siu<0 || Siu>Courses)
+					{
+						system("cls");
+						cout << "Invalid Input Entered ." << endl;
+						goto pointer2;
+					}
+					cout << endl << "Which Course's Marks You Want to Assign :  ";
+					cin >> Siu;
 
+				} while (Siu<0 || Siu>Courses);
+				t_Course[Siu].marks_Assigner();
+				goto start1;
 			}
 			else if (sub_Choice == 3)
 			{
 				this->main_Menu();
 			}
-			else
-			{
-
-			}
+			
 		}
-		else if (choice == 3)
+		else if (choice == 5)
 		{
 			system("cls");
 			cout << "\t\t\t COURSE WITHDRAW \t\t\t" << endl << endl;
@@ -940,10 +1095,6 @@ public:
 			else if (sub_Choice == 3)
 			{
 				this->main_Menu();
-			}
-			else
-			{
-
 			}
 			}
 	}
