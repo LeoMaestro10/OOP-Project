@@ -666,7 +666,78 @@ public:
 			course_Students = 0;
 		}
 	}
-
+	void available_Course()
+	{
+		cout << "[ " << course_Code << " ]  " << course_Name << endl;
+	}
+	string code_Getter()
+	{
+		return course_Code;
+	}
+	string name_Getter()
+	{
+		return course_Name;
+	}
+	string inst_Getter()
+	{
+		return course_Instructor;
+	}
+	int credit_Getter()
+	{
+		return course_Credits;
+	}
+	int space_Getter()
+	{
+		return course_Capacity;
+	}
+	void Attendance_Shower()
+	{
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			cout << course_Students[i].name_Getter() << " : ";
+			course_Students[i].attendance_Displayer();
+		}
+	}
+	void Attendance_Marker()
+	{
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			cout << course_Students[i].name_Getter() << " : ";
+			course_Students[i].attendance_Marker(course_Code);
+		}
+	}
+	void marks_Assigner()
+	{
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			cout << course_Students[i].name_Getter() << " : ";
+			course_Students[i].marks_Assigner(course_Code);
+		}
+	}
+	void marks_Displayer()
+	{
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			cout << course_Students[i].name_Getter() << " : ";
+			course_Students[i].Marks_Displayer();
+		}
+	}
+	~Course()
+	{
+		course_Code = " ";
+		course_Name = " ";
+		course_Instructor = " ";
+		course_Credits = 0;
+		students_Enrolled = 0;
+		if (course_Students)
+		{
+			delete[]course_Students;
+		}
+		else
+		{
+			course_Students = 0;
+		}
+	}
 };
 
 class System
