@@ -38,7 +38,7 @@ public:
 
 				bool flag = 1;
 				int k = i;
-				for (int j = 0; substring[j]!='\0'; j++:k++)
+				for (int j = 0; substring[j]!='\0'; j++,k++)
 				{
 					if (str[k]!=substring[j])
 					{
@@ -50,12 +50,9 @@ public:
 					return true;
 				}
 			}
-
 		}
 		return false;
 	}
-
-
 };
 
 class Student
@@ -119,7 +116,35 @@ public:
 			delete[] attendance;
 			attendance = att;
 			total_Attendance = length_Att;
-
+			string att_Sheet = roll_No + ".txt";
+			const char* filename = string_Helper::str_From_Memory(course_Code + att_Sheet);
+			remove(filename);
+			FileHandler fin;
+			fin.file_Opener(filename, ios::app);
+			fin << total_Attendance;
+			fin << '\n';
+			for (int i = 0; i < total_Attendance; i++)
+			{
+				fin << attendance[i];
+				fin << "  ";
+			}
+			fin.file_Closer();
+		}
+		else
+		{
+			total_Attendance += 1;
+			attendance = new char[total_Attendance];
+			cin >> attendance[total_Attendance - 1];
+			string att_Sheet = roll_No + ".txt";
+			const char* filename = string_Helper::str_From_Memory(course_Code + att_Sheet);
+			remove(filename);
+			FileHandler fin;
+			fin.file_Opener(filename, ios::app);
+			fin << total_Attendance;
+			fin << '/n';
+			fin << attendance[total_Attendance - 1];
+			fin << " ";
+			fin.file_Closer();
 		}
 	}
 	
@@ -464,7 +489,7 @@ public:
 		Filer >> reader;
 	}
 	template <typename decider>
-	void operator<<(decider& writer)
+	void operator<<(decider writer)
 	{
 		Filer << writer;
 	}
