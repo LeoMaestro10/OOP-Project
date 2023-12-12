@@ -147,7 +147,59 @@ public:
 			fin.file_Closer();
 		}
 	}
-	
+	void marks_Assigner(string course_Code)
+	{
+		if (total_Marks>0)
+		{
+			for (int i = 0; i < total_Marks; i++)
+			{
+				cout << marks[i] << "  ";
+			}
+			int today_Marks;
+			cin >> today_Marks;
+			int* mar;
+			int length_Marks = total_Marks + 1;
+			mar = new int[length_Marks];
+			int m = 0;
+			for (m; m < total_Marks; m++)
+			{
+				mar[m] = marks[m];
+			}
+			mar[m] = today_Marks;
+			delete[] marks;
+			marks = mar;
+			total_Marks = length_Marks;
+			string Mark_Sheet = roll_No +"M"+".txt";
+			const char* filename = string_Helper::str_From_Memory(course_Code + Mark_Sheet);
+			remove(filename);
+			FileHandler fin;
+			fin.file_Opener(filename, ios::app);
+			fin << total_Marks;
+			fin << '/n';
+			for (int i = 0; i < total_Marks; i++)
+			{
+				fin << marks[i];
+				fin << "  ";
+			}
+			fin.file_Closer();
+
+		}
+		else
+		{
+			total_Marks += 1;
+			marks = new int[total_Marks];
+			cin >> attendance[total_Marks - 1];
+			string Mark_Sheet = roll_No +"M" + ".txt";
+			const char* filename = string_Helper::str_From_Memory(course_Code + Mark_Sheet);
+			FileHandler fin;
+			fin.file_Opener(filename, ios::app);
+			fin << total_Attendance;
+			fin << '/n';
+			fin << attendance[total_Attendance - 1];
+			fin << " ";
+			fin.file_Closer();
+		}
+	}
 	
 
 };
