@@ -523,7 +523,149 @@ public:
 		}
 		fin.file_Closer();
 	}
-
+	void operator=(const Course& object)
+	{
+		course_Code = object.course_Code;
+		course_Name = object.course_Name;
+		course_Instructor = object.course_Instructor;
+		course_Credits = object.course_Credits;
+		course_Capacity = object.course_Capacity;
+		students_Enrolled = object.students_Enrolled;
+		course_Students = new Student[students_Enrolled];
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			course_Students[i] = object.course_Students[i];
+		}
+	}
+	void input_Getter()
+	{
+		system("cls");
+		string inst_f_name,inst_l_name;
+		cout << "Enter Course Code : ";
+		cin >> course_Code;
+		cout << "Enter Course Name : ";
+		cin >> course_Name;
+		cout << "Enter First Name Of Instructor : ";
+		cin >> inst_f_name;
+		cout << "Enter Last Name Of Instructor : ";
+		cin >> inst_l_name;
+		course_Instructor = inst_f_name + " " + inst_l_name;
+		cout << "Enter Course Credit Hours : ";
+		cin >> course_Credits;
+		cout << "Enter Students Capacity Of Course : ";
+		cin >> course_Capacity;
+		students_Enrolled = 0;
+		course_Students = 0;
+	}
+	Course* student_Details_Editor(int stu)
+	{
+		Course* temp = this;
+		string rol_Number;
+		int length, moye, moya;
+		bool flag = 0;
+		system("cls");
+		cout << "Enter Roll No : ";
+		cin >> rol_Number;
+		for (int i = 0; i < stu; i++)
+		{
+			length = temp[i].students_Enrolled;
+			for (int j = 0; j < length; j++)
+			{
+				if (rol_Number==temp[i].course_Students[j].roll_Getter())
+				{
+					temp[i].course_Students[j].student_Info_Updater();
+					moye = i;
+					moya = j;
+					flag = 1;
+					FileHandler fin;
+					const char* editor;
+					editor = string_Helper::str_From_Memory(temp[i].course_Code + ".txt");
+					remove(editor);
+					fin.file_Opener(editor, ios::app);
+					fin << temp[i].students_Enrolled;
+					fin << '\n';
+					for (int k = 0; k < temp[i].students_Enrolled; k++)
+					{
+						fin << temp[i].course_Students[k].name_Getter();
+						fin << "\t\t";
+						fin << temp[i].course_Students[k].umar_Getter();
+						fin << "\t\t";
+						fin << temp[i].course_Students[k].roll_Getter();
+						fin << "\t\t";
+						fin << temp[i].course_Students[k].rabta_Getter();
+						fin << '\n';
+					}
+					fin.file_Closer();
+					break;
+				}
+			}
+			if (flag==true)
+			{
+				break;
+			}
+		}
+		if (flag==1&&moye!=stu-1)
+		{
+			for (int i = moye+1; i < stu; i++)
+			{
+				length = temp[i].students_Enrolled;
+				for (int j = 0; j < length; j++)
+				{
+					if (rol_Number==temp[i].course_Students[j].roll_Getter())
+					{
+						temp[i].course_Students[j] = temp[moye].course_Students[moya];
+						FileHandler fin;
+						const char* name_File;
+						name_File = string_Helper::str_From_Memory(temp[i].course_Code + ".txt");
+						remove(name_File);
+						fin.file_Opener(name_File, ios::app);
+						fin << temp[i].students_Enrolled;
+						fin << '\n';
+						for (int k = 0; k < temp[i].students_Enrolled; k++)
+						{
+							fin << temp[i].course_Students[k].name_Getter();
+							fin << "\t\t";
+							fin << temp[i].course_Students[k].umar_Getter();
+							fin << "\t\t";
+							fin << temp[i].course_Students[k].roll_Getter();
+							fin << "\t\t";
+							fin << temp[i].course_Students[k].rabta_Getter();
+							fin << '\n';
+						}
+						fin.file_Closer();
+					}
+				}
+			}
+		}
+		else
+		{
+			cout << "Sorry ! Student Not Found . " << endl;
+			return this;
+		}
+		return temp;
+	}
+	void file_reader(string coco_Code, string coco_name, string coco_inst, int credit, int space, Student* object, int total)
+	{
+		course_Code = coco_Code;
+		course_Name = coco_name;
+		course_Instructor = coco_inst;
+		course_Credits = credit;
+		course_Capacity = space;
+		students_Enrolled = total;
+		if (total>0)
+		{
+			course_Students = new Student[total];
+			for (int i = 0; i < total; i++)
+			{
+				course_Students[i] = object[i];
+			}
+		}
+		else
+		{
+			students_Enrolled = 0;
+			course_Students = 0;
+		}
+	}
 
 };
 
@@ -837,7 +979,7 @@ public:
 				cour_Students = 0;
 			}
 			student_Reader.close();
-			co_pointer[i].file_reader(co_Code, co_Name, co_Instructor, co_Credits,co_Capacity);
+			co_pointer[i].file_reader(co_Code, co_Name, co_Instructor, co_Credits,co_Capacity,cour_Students,stu_Enrolled);
 		}
 	}
 	template <typename decider>
