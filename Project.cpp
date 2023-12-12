@@ -396,10 +396,133 @@ public:
 	}
 	void students_Displayer()
 	{
-		
+		system("cls");
+		cout << endl;
+		cout << course_Code << "\t\t";
+		cout << course_Name << "\t\t";
+		cout << course_Instructor << "\t\t";
+		cout << course_Capacity << "\t\t";
+		cout << students_Enrolled << "\t\t";
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			cout << course_Students[i];
+		}
 	}
-	
-	
+	void student_Enroller()
+	{
+		FileHandler fin;
+		int temporary = students_Enrolled;
+		students_Enrolled++;
+		string full_Name, first_name, last_name,roll_Number;
+		int age,*e_Marks=0,t_Att=0;
+		long double contact;
+		char* din_att = 0;
+		cout << "Enter First Name : ";
+		cin >> first_name;
+		cout << "Enter Last Name : ";
+		cin >> last_name;
+		full_Name = first_name + " " + last_name;
+		cout << "Enter Age : ";
+		cin >> age;
+		cout << "Enter Roll Number : ";
+		cin >> roll_Number;
+		cout << "Enter Contact : ";
+		cin >> contact;
+		if (temporary>0)
+		{
+			Student* temp = new Student[students_Enrolled];
+			for (int i = 0; i < temporary; i++)
+			{
+				temp[i] = course_Students[i];
+			}
+			temp[students_Enrolled - 1] = Student(full_Name, roll_Number, age, contact, din_att, e_Marks, t_Att, course_Code);
+			int stu = temp[0].total_Att_Getter();
+			temp[students_Enrolled - 1].attendance_Setter(stu);
+			delete[] course_Students;
+			course_Students = temp;
+		}
+		else
+		{
+			Student*temp=new Student(full_Name, roll_Number, age, contact, din_att, e_Marks, t_Att, course_Code);
+			course_Students = temp;
+		}
+		const char* name_Of_File;
+		name_Of_File = string_Helper::str_From_Memory(course_Code + ".txt");
+		remove(name_Of_File);
+		fin.file_Opener(name_Of_File, ios::app);
+		fin << students_Enrolled;
+		fin << '\n';
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			fin << course_Students[i].name_Getter();
+			fin << "\t\t";
+			fin << course_Students[i].umar_Getter();
+			fin << "\t\t";
+			fin << course_Students[i].roll_Getter();
+			fin << "\t\t";
+			fin << course_Students[i].rabta_Getter();
+			fin << "\n";
+		}
+		fin.file_Closer();
+	}
+	void student_Remover()
+	{
+		FileHandler fin;
+		string roll_No;
+		Student* temp;
+		int length;
+		system("cls");
+		cout << "Enter Roll No : ";
+		cin >> roll_No;
+		bool checker = 0;
+		for (size_t i = 0; i < students_Enrolled; i++)
+		{
+			if (roll_No==course_Students[i].roll_Getter())
+			{
+				checker = 1;
+				length = students_Enrolled - 1;
+				temp = new Student[length];
+				int k = 0;
+				for (int j = 0; j < students_Enrolled; j++)
+				{
+					if (roll_No==course_Students[j].roll_Getter())
+					{
+						continue;
+					}
+					else
+					{
+						temp[k] = course_Students[j];
+						k++;
+					}
+				}
+				delete[] course_Students;
+				course_Students = temp;
+				students_Enrolled = length;
+			}
+		}
+		if (!checker)
+		{
+			cout << "Sorry ! Roll No Not Found . ";
+		}
+		const char* name_Of_File;
+		name_Of_File = string_Helper::str_From_Memory(course_Code + ".txt");
+		remove(name_Of_File);
+		fin.file_Opener(name_Of_File, ios::app);
+		fin << students_Enrolled;
+		fin << '\n';
+		for (int i = 0; i < students_Enrolled; i++)
+		{
+			fin << course_Students[i].name_Getter();
+			fin << "\t\t";
+			fin << course_Students[i].umar_Getter();
+			fin << "\t\t";
+			fin << course_Students[i].roll_Getter();
+			fin << "\t\t";
+			fin << course_Students[i].rabta_Getter();
+			fin << "\n";
+		}
+		fin.file_Closer();
+	}
 
 
 };
