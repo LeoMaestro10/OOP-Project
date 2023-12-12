@@ -373,6 +373,31 @@ private:
 
 public:
 	friend class FileHandler;
+	Course() 
+	{
+		course_Code = "";
+		course_Name = "";
+		course_Instructor = "";
+		course_Credits = 0;
+		course_Students = 0;
+		course_Capacity = 0;
+		students_Enrolled = 0;
+
+	}
+	Course(string c_Code, string c_Name, string c_Instrutor, float c_Credits, double c_Capacity, int st_Enrolled, Student* c_Students)
+	{
+		course_Code = c_Code;
+		course_Name = c_Name;
+		course_Instructor = c_Instrutor;
+		course_Credits = c_Credits;
+		course_Capacity = c_Capacity;
+		students_Enrolled = st_Enrolled;
+		course_Students = c_Students;
+	}
+	void students_Displayer()
+	{
+		
+	}
 	
 	
 
