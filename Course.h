@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
 #include"FileHandler.h"
 #include"Student.h"
 using namespace std;
@@ -29,7 +28,7 @@ public:
 	void student_Remover();
 	void operator=(const Course& object);
 	void input_Getter();
-	Course* student_Details_Editor(int stu);
+	Course* student_Details_Editor(int);
 	void file_reader(string coco_Code, string coco_name, string coco_inst, int credit, int space, Student* object, int total);
 	void available_Course()
 	{

@@ -1,0 +1,4 @@
+3
+OOP		Object-Oriented-Programming		Hina Iqbal		3		50
+LA		Linear Algebra		Akhlaq Bhatti		3		50
+MS		Mass-Communication		Gul Bano		2		50
